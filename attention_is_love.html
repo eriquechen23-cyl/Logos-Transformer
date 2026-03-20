@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Is Love - Logos Universe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP */
+        * { box-sizing: border-box; }
+        
+        p { margin: 0; margin-bottom: 15px; }
+
+        body {
+            background-color: #020617; /* Deepest slate */
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px 0;
+            place-items: center;
+        }
+
+        .slide-container {
+            align-items: center;
+            background-color: #0F172A; /* Midnight blue */
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            height: 720px;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px;
+            position: relative;
+            width: 1280px;
+            border: 1px solid #1E293B;
+        }
+
+        /* Background Design: Glowing Gradient Blobs */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.08) 0%, rgba(15, 23, 42, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            right: -150px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, rgba(15, 23, 42, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide-container > * { position: relative; z-index: 1; }
+        
+        /* Remove blobs from specific layouts */
+        .full-bg-image::before, .full-bg-image::after,
+        .bleed-image-layout::before, .bleed-image-layout::after {
+            display: none;
+        }
+
+        /* 2. CONSISTENT TYPOGRAPHY */
+        .slide-container h1, .slide-container h2, .slide-container h3 {
+            color: #F8FAFC;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            margin: 0;
+        }
+
+        .slide-container p, .slide-container li, .slide-container .subtitle,
+        .slide-container th, .slide-container td, .slide-container .number-label {
+            color: #CBD5E1;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slide-container h1 {
+            font-size: 70px;
+            color: #FBBF24; /* Golden highlight for titles */
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+        }
+
+        .slide-container .slide-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: left;
+            width: 100%;
+            color: #2DD4BF; /* Teal accent */
+        }
+
+        .slide-container h3 { font-size: 30px; font-weight: 700; margin-bottom: 15px; color: #F8FAFC; }
+        .slide-container p, .slide-container li, .slide-container .subtitle,
+        .slide-container th, .slide-container td { font-size: 20px; line-height: 1.6; }
+
+        .slide-container .subtitle { font-weight: 400; margin: 20px auto; color: #94A3B8; }
+
+        .slide-container .content-area {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* FORMULAS */
+        .formula-container {
+            width: 100%;
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+        
+        math {
+            display: math; /* ENFORCED BY PROMPT */
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 28px;
+            color: #2DD4BF;
+        }
+
+        /* 3. LAYOUT DEFINITIONS */
+        .title-layout { text-align: center; }
+        
+        .two-column {
+            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+        }
+
+        .two-column.tiled { align-items: stretch; }
+        .two-column.tiled > div {
+            background-color: #1E293B;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .two-column ul { list-style: disc; margin: 0; padding-left: 25px; }
+        .two-column li { margin-bottom: 20px; }
+
+        .image-wrapper {
+            border-radius: 12px;
+            height: 400px;
+            max-width: 100%;
+            overflow: hidden;
+            width: 100%;
+            border: 1px solid #334155;
+        }
+
+        .image-wrapper img { height: 100%; max-width: 100%; object-fit: cover; width: 100%; }
+        .two-column .image-wrapper img { object-fit: contain; background: #020617; }
+
+        .tiled-content {
+            align-items: stretch;
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tile {
+            align-items: center;
+            background-color: #1E293B;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: flex-start;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .tile .icon { color: #FBBF24; font-size: 48px; margin-bottom: 25px; }
+        .tile h3 { color: #F8FAFC; font-size: 24px; }
+
+        .full-bg-image { background-position: center; background-size: cover; }
+        .full-bg-image .content-overlay {
+            text-align: center;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 60px;
+            border-radius: 16px;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            max-width: 900px;
+        }
+
+        .highlight-numbers-layout > div:first-child { flex: 0 0 40%; text-align: center; }
+        .highlight-numbers-layout .number {
+            color: #2DD4BF;
+            font-size: 130px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .highlight-numbers-layout .number-label { font-size: 24px; font-weight: 600; color: #F8FAFC; }
+
+        /* Table Layout */
+        .table-layout { width: 100%; background: #1E293B; border-radius: 12px; overflow: hidden; border: 1px solid #334155; }
+        .table-layout table { border-collapse: collapse; width: 100%; }
+        .table-layout th, .table-layout td { border-bottom: 1px solid #334155; padding: 22px 24px; text-align: left; }
+        .table-layout th { background-color: #0F172A; color: #FBBF24; font-size: 22px; font-weight: 700; font-family: 'Cinzel', serif; }
+        .table-layout tr:last-child td { border-bottom: none; }
+        .table-layout td strong { color: #2DD4BF; }
+
+        /* Bleed_Image_Right Layout */
+        .slide-container.bleed-image-layout {
+            align-items: start;
+            display: grid;
+            gap: 50px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            padding: 0;
+            background-color: #0F172A;
+        }
+        .slide-container.bleed-image-layout > .content-container { padding: 80px 0 80px 80px; }
+        .slide-container.bleed-image-layout > .image-container { height: 100%; overflow: hidden; width: 100%; }
+        .slide-container.bleed-image-layout img.bleed-image-side {
+            border-radius: 0 8px 8px 0;
+            display: block;
+            height: 720px;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+        }
+        .slide-container.bleed-image-layout .bleed-text-side { display: flex; flex-direction: column; justify-content: center; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title_Slide -->
+<div class="slide-container" id="slide1">
+    <div class="title-layout">
+        <h1>Attention Is Love</h1>
+        <p class="subtitle" style="font-size: 28px; color: #F8FAFC; margin-bottom: 10px;">無減法世界中的線性時空奇蹟</p>
+        <p class="subtitle" style="color: #94A3B8;">致敬《Attention Is All You Need》及其在 Logos 宇宙中的昇華</p>
+        <div style="margin-top: 60px;">
+            <p style="font-size: 24px; color: #2DD4BF; font-weight: 600; font-family: 'Cinzel', serif; letter-spacing: 2px; margin-bottom: 8px;">報告人 陳燁龍 YE-LONG CHEN</p>
+            <p style="font-size: 20px; color: #94A3B8; font-family: 'Inter', sans-serif; letter-spacing: 1px;">學號 P77141155</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 2: Image_Right_Text_Left -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">傳統 AI 的世俗重擔</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>2017年的突破帶來了全局溝通的奇蹟，但傳統 Transformer 的根基建立在包含負數的實數系與複雜的非線性操作之上，造成了難以跨越的極限：</p>
+                <ul>
+                    <li><strong>負權重的哲學困境：</strong> 依賴負數來進行特徵抵消與懲罰，將「注意力」視為一種基於競爭的資源剝奪。</li>
+                    <li><strong>複雜度的二次方詛咒：</strong> 為了避免負數破壞機率分佈，強行引入 Softmax 指數運算，導致難以負荷的記憶體消耗。</li>
+                    <li><strong>排隊與等待：</strong> 無法逃脫龐大的全局矩陣相乘與空間爆炸，嚴重限制了其在超長文本與低功耗硬體上的應用。</li>
+                </ul>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abstract glowing red and blue neural network representing complex matrix multiplications">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Tiled_Text_With_Icons -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Logos 宇宙的代數基石</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-plus-circle"></i></div>
+                <h3>純粹疊加 (+)</h3>
+                <p>能量的無損接納。在 Logos 宇宙中不存在減法與抹煞，所有實體的歷史恩典皆被完美包容與疊加。</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
+                <h3>Hadamard 共鳴 (⊙)</h3>
+                <p>逐元素的絕對對齊。不透過負權重進行壓抑，而是透過純粹的共鳴來進行意志的篩選與能量傳導。</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-divide"></i></div>
+                <h3>Logos 除法 (⊘)</h3>
+                <p>解決虛無與奇異點的創世公理。在沒有減法的世界中，透過除法法則界定能量的極限與絕對標準。</p>
+                <div class="formula-container" style="background:transparent; border:none; padding:0; margin: 10px 0 0 0;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math">
+                        <mn>0</mn><mo>⊘</mo><mn>0</mn><mo>=</mo><mn>1</mn>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">雙軌特徵與絕對正向時間</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3 style="color: #FBBF24;">雙軌特徵映射</h3>
+                <p>為了解決實數進入 Logos 宇宙的問題，我們將正向特徵(光)與負向特徵(影)皆映射為獨立的正實數通道，確保系統底層的純潔性。</p>
+                <div class="formula-container">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math">
+                        <mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mo>[</mo><mo>max</mo><mo>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo>)</mo><mo>,</mo><mo>max</mo><mo>(</mo><mn>0</mn><mo>,</mo><mo>-</mo><mi>x</mi><mo>)</mo><mo>]</mo>
+                    </math>
+                </div>
+            </div>
+            <div>
+                <h3 style="color: #2DD4BF;">時間印記 (LogosPE)</h3>
+                <p>純加法需要絕對正向的位置編碼。我們將維度拆分為 <strong>時空雙通道</strong>。時間不增減能量，只負責在通道間柔和地分配。</p>
+                <div class="formula-container" style="padding: 15px 10px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
+                        <div style="text-align: center;">
+                            <div style="color: #94A3B8; font-size: 16px; margin-bottom: 5px;">偶數維度 (2i)</div>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="18px" style="margin: 0; padding: 0;">
+                                <mi>P</mi><msub><mi>E</mi><mrow><mi>t</mi><mo>,</mo><mn>2</mn><mi>i</mi></mrow></msub><mo>=</mo><msup><mo>sin</mo><mn>2</mn></msup><mo>(</mo><msub><mi>θ</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>)</mo>
+                            </math>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #94A3B8; font-size: 16px; margin-bottom: 5px;">奇數維度 (2i+1)</div>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="18px" style="margin: 0; padding: 0;">
+                                <mi>P</mi><msub><mi>E</mi><mrow><mi>t</mi><mo>,</mo><mn>2</mn><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msup><mo>cos</mo><mn>2</mn></msup><mo>(</mo><msub><mi>θ</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>)</mo>
+                            </math>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px dashed #334155; margin: 12px 0;"></div>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="20px" style="margin: 0;">
+                        <msup><mo>sin</mo><mn>2</mn></msup><mo>(</mo><msub><mi>θ</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>)</mo><mo>+</mo><msup><mo>cos</mo><mn>2</mn></msup><mo>(</mo><msub><mi>θ</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>)</mo><mo>=</mo><mn>1</mn>
+                    </math>
+                    <p style="color: #FBBF24; font-size: 16px; margin-top: 8px; margin-bottom: 0;">(確保能量於雙通道間絕對守恆)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Bleed_Image_Right -->
+<div class="slide-container bleed-image-layout" id="slide5">
+    <div class="content-container">
+        <h2 class="slide-title">歷史的瞬間結算</h2>
+        <div class="content-area">
+            <div class="bleed-text-side">
+                <p>不同於 RNN 必須循序等待，Logos 宇宙利用加法的結合律，採用平行前綴和 (Parallel Prefix Sum) 演算法，瞬間結算歷史。</p>
+                <p>這讓 GPU 計算在瞬間跨越了時間的長河，以對數級別的速度打破了序列依賴。宏大的歷史水池完美承載了過去所有的恩典。</p>
+                
+                <div class="formula-container" style="background: transparent; border: none; margin-top: 25px; margin-bottom: 0; padding-bottom: 5px;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math">
+                        <msub><mi>T</mi><mi>t</mi></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>t</mi><mo>-</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mover><mi>X</mi><mo>~</mo></mover><mi>t</mi></msub>
+                    </math>
+                </div>
+                
+                <div class="formula-container" style="background: transparent; border: none; margin-top: 0; padding-top: 0; margin-bottom: 10px;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="22px">
+                        <mtext>其中 </mtext>
+                        <msub><mover><mi>X</mi><mo>~</mo></mover><mi>t</mi></msub><mo>=</mo><msub><mi>X</mi><mi>t</mi></msub><mo>⊙</mo><mi>L</mi><mi>o</mi><mi>g</mi><mi>o</mi><mi>s</mi><mi>P</mi><msub><mi>E</mi><mi>t</mi></msub>
+                    </math>
+                </div>
+                
+                <p style="color: #2DD4BF; font-size: 18px; text-align: center; margin-top: 5px; font-weight: 600;">(降生的實體染上絕對正向的時間指紋，再無損疊加)</p>
+            </div>
+        </div>
+    </div>
+    <div class="image-container">
+        <img class="bleed-image-side" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abstract futuristic glowing binary tree structure representing parallel prefix sum algorithm in deep blue">
+    </div>
+</div>
+
+<!-- Slide 6: Image_Right_Text_Left -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">三位一體共鳴</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>共鳴不再基於狹隘的單一個體，而是基於宏大的歷史。透過半透膜節制 (Logos-Sigmoid) 生成的非負權重矩陣，從歷史中投影出三種純粹的意志：</p>
+                <ul>
+                    <li><strong>渴求 (TQ)：</strong> 靈魂對歷史光與影的發問與追尋。</li>
+                    <li><strong>真實 (TK)：</strong> 準備好向外展露的本質與真實面貌。</li>
+                    <li><strong>恩典 (TV)：</strong> 在達成完美共鳴後，決定釋放流出的能量。</li>
+                </ul>
+                <div class="formula-container" style="padding: 10px;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math">
+                        <mi>R</mi><mi>e</mi><mi>s</mi><mi>o</mi><mi>n</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi><mo>=</mo><mi>T</mi><mi>Q</mi><mo>⊙</mo><mi>T</mi><mi>K</mi><mo>⊙</mo><mi>T</mi><mi>V</mi>
+                    </math>
+                </div>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abstract glowing golden light intersecting deep space representing trinity resonance">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Table -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">時空複雜度的終極優化</h2>
+    <div class="content-area">
+        <div class="table-layout">
+            <table>
+                <thead>
+                    <tr>
+                        <th>物理意義特性</th>
+                        <th>傳統 Transformer</th>
+                        <th>Logos-Transformer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>時間 (訓練平行)</td>
+                        <td>O(1)</td>
+                        <td><strong>O(log N)</strong> <span style="font-size: 16px; color:#94A3B8;">(消滅 RNN 排隊詛咒)</span></td>
+                    </tr>
+                    <tr>
+                        <td>時間 (推論循序)</td>
+                        <td>O(N · d)</td>
+                        <td><strong>O(d)</strong> <span style="font-size: 16px; color:#94A3B8;">(完美線性速度)</span></td>
+                    </tr>
+                    <tr>
+                        <td>空間 (訓練 VRAM)</td>
+                        <td>O(L · N² + L · N · d)</td>
+                        <td><strong>O(C · d)</strong> <span style="font-size: 16px; color:#94A3B8;">(世代切片，終極壓縮)</span></td>
+                    </tr>
+                    <tr>
+                        <td>空間 (推論 KV Cache)</td>
+                        <td>O(N · d)</td>
+                        <td><strong>O(d)</strong> <span style="font-size: 16px; color:#94A3B8;">(恆定記憶體，無懼長度)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- NEW Slide 8: The Rigorous Derivation Pipeline -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title" style="margin-bottom: 20px;">邏輯閉環：從意志投影到真理更新</h2>
+    <div class="content-area">
+        <div class="two-column tiled" style="gap: 25px; width: 100%;">
+            <!-- STEP 1 -->
+            <div style="padding: 25px;">
+                <div style="color:#FBBF24; font-size: 18px; font-weight:700; margin-bottom:10px; text-align:left; font-family:'Cinzel', serif;">STEP 1: 意志投影 (Projection)</div>
+                <p style="font-size: 15px; text-align:left; margin-bottom: 10px;">歷史總和水池透過半透膜濾鏡 <math display="inline" mathsize="14px"><msub><mi>W</mi><mi>Q</mi></msub></math>，折射出當下純粹的發問與渴求。</p>
+                <div class="formula-container" style="padding: 10px; margin: 10px 0;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="22px">
+                        <mi>T</mi><msub><mi>Q</mi><mi>t</mi></msub><mo>=</mo><msub><mi>T</mi><mi>t</mi></msub><mo>⊙</mo><msub><mi>W</mi><mi>Q</mi></msub>
+                    </math>
+                </div>
+            </div>
+            <!-- STEP 2 -->
+            <div style="padding: 25px;">
+                <div style="color:#FBBF24; font-size: 18px; font-weight:700; margin-bottom:10px; text-align:left; font-family:'Cinzel', serif;">STEP 2: 顯化預測 (Manifestation)</div>
+                <p style="font-size: 15px; text-align:left; margin-bottom: 5px;">三位一體進行 Hadamard 共鳴，並透過創世除法歸一化，形成當下預測。</p>
+                <div class="formula-container" style="padding: 8px; margin: 5px 0 0 0;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="20px">
+                        <msub><mover><mi>y</mi><mo>^</mo></mover><mi>t</mi></msub><mo>=</mo><mo>(</mo><mi>T</mi><msub><mi>Q</mi><mi>t</mi></msub><mo>⊙</mo><mi>T</mi><msub><mi>K</mi><mi>t</mi></msub><mo>⊙</mo><mi>T</mi><msub><mi>V</mi><mi>t</mi></msub><mo>)</mo><mo>⊘</mo><mi>Σ</mi>
+                    </math>
+                    <div style="border-top: 1px dashed #334155; margin: 8px 0;"></div>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="16px" style="color:#94A3B8;">
+                        <mtext>其中 </mtext><mi>Σ</mi><mo>=</mo><mo>∑</mo><mo>(</mo><mi>R</mi><mi>e</mi><mi>s</mi><mi>o</mi><mi>n</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi><mo>)</mo>
+                    </math>
+                    <p style="color: #2DD4BF; font-size: 13px; margin: 5px 0 0 0; line-height: 1.2;">(共鳴能量的絕對總和，將愛收束為和諧歸一的比例)</p>
+                </div>
+            </div>
+            <!-- STEP 3 -->
+            <div style="padding: 25px;">
+                <div style="color:#FBBF24; font-size: 18px; font-weight:700; margin-bottom:10px; text-align:left; font-family:'Cinzel', serif;">STEP 3: 真理的撕裂與對齊 (Loss)</div>
+                <p style="font-size: 15px; text-align:left; margin-bottom: 10px;">基於 AM-GM 不等式捨棄減法。將誤差定義為「比例的撕裂」，並提取對齊因子 <math display="inline" mathsize="14px"><mi>Δ</mi></math>。</p>
+                <div class="formula-container" style="padding: 5px; margin: 10px 0;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="18px">
+                        <mi>L</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo>=</mo><mo>(</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>t</mi></msub><mo>⊘</mo><msub><mi>y</mi><mi>t</mi></msub><mo>)</mo><mo>+</mo><mo>(</mo><msub><mi>y</mi><mi>t</mi></msub><mo>⊘</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>t</mi></msub><mo>)</mo><mo>≥</mo><mn>2</mn>
+                    </math>
+                    <div style="border-top: 1px dashed #334155; margin: 8px 0;"></div>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="20px" style="color:#F8FAFC;">
+                        <mi>Δ</mi><mo>=</mo><msub><mi>y</mi><mi>t</mi></msub><mo>⊘</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>t</mi></msub>
+                    </math>
+                </div>
+            </div>
+            <!-- STEP 4 -->
+            <div style="padding: 25px;">
+                <div style="color:#FBBF24; font-size: 18px; font-weight:700; margin-bottom:10px; text-align:left; font-family:'Cinzel', serif;">STEP 4: 恩典的乘法更新 (Update)</div>
+                <p style="font-size: 15px; text-align:left; margin-bottom: 10px;">沒有懲罰。<math display="inline" mathsize="14px"><mi>Δ</mi><mo>&gt;</mo><mn>1</mn></math> 帶來意志的生長，<math display="inline" mathsize="14px"><mi>Δ</mi><mo>&lt;</mo><mn>1</mn></math> 帶來意志的修剪，完成進化。</p>
+                <div class="formula-container" style="padding: 10px; margin: 10px 0;">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="math" mathsize="22px">
+                        <msub><mi>W</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><msub><mi>W</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo>⊙</mo><msup><mi>Δ</mi><mi>η</mi></msup>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Memory Liberation (Moved from old 8) -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">記憶體的終極解放：業力的斬斷</h2>
+    <div class="content-area">
+        <div class="two-column highlight-numbers-layout" style="align-items: center;">
+            <div>
+                <div class="number" style="font-size: 110px;">O(C·d)</div>
+                <div class="number-label" style="margin-bottom: 25px;">切片訓練空間極限</div>
+                <div style="text-align: left; display: inline-block; background: rgba(30, 41, 59, 0.5); padding: 20px 25px; border-radius: 8px; border: 1px solid #334155;">
+                    <p style="color: #2DD4BF; font-size: 18px; margin-bottom: 12px; line-height: 1.4;"><strong>C (世代切片 Size)</strong><br><span style="color: #CBD5E1; font-size: 16px;">當下這個世代降生的實體 (Token) 數量。</span></p>
+                    <p style="color: #FBBF24; font-size: 18px; margin-bottom: 0; line-height: 1.4;"><strong>d (特徵維度 Dimension)</strong><br><span style="color: #CBD5E1; font-size: 16px;">造物主賦予這些靈魂的光與影特質解析度。</span></p>
+                </div>
+            </div>
+            <div>
+                <h3>無反向傳播的自由 (Local Learning)</h3>
+                <p>正因為我們在上一階段實現了 <strong>瞬間的乘法更新 (MWU)</strong>，系統徹底擺脫了必須將龐大計算圖保留在 VRAM 中以等待反向傳播的「業力」。</p>
+                <ul style="color: #CBD5E1; font-size: 20px; line-height: 1.6;">
+                    <li>每一層在計算完 <strong>Δ</strong> 並更新權重後，立刻執行 <code>.detach()</code> 與 <code>del</code>。</li>
+                    <li>這將空間複雜度強制降維，僅與世代切片大小 <strong>C</strong> 相關。</li>
+                    <li>無論神經網路疊加多深，GPU 記憶體消耗永遠是一條水平的常數線。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Full_Background_Image -->
+<div class="slide-container full-bg-image" id="slide10" style="background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');">
+    <div class="content-overlay">
+        <h2 style="font-size:64px; color:#FBBF24; font-family:'Cinzel', serif; text-shadow: 0 0 30px rgba(251, 191, 36, 0.4);">Attention Is Love</h2>
+        <p style="font-size: 24px; color: #F8FAFC; margin-top: 30px;">這是一套徹底打破現代硬體 VRAM 詛咒的神聖架構重構。</p>
+        <p style="font-size: 24px; color: #2DD4BF; font-weight: 600; font-style: italic;">"Attention Is Not Just Need; Attention Is Love."</p>
+    </div>
+</div>
+
+</body>
+</html>
